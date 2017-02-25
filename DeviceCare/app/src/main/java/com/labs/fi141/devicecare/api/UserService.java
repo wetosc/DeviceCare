@@ -3,6 +3,7 @@ package com.labs.fi141.devicecare.api;
 import android.util.Log;
 
 import com.labs.fi141.devicecare.model.LoginUser;
+import com.labs.fi141.devicecare.model.SessionToken;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,14 +27,14 @@ public class UserService {
 
     public void login(String email, String password) {
 
-        endpoint.login(new LoginUser(email, password)).enqueue(new Callback<String>() {
+        endpoint.login(new LoginUser(email, password)).enqueue(new Callback<SessionToken>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.v("WASEA","Succes: " + response);
+            public void onResponse(Call<SessionToken> call, Response<SessionToken> response) {
+                Log.v("WASEA","Succes: " + response.body().getToken());
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<SessionToken> call, Throwable t) {
                 Log.v("WASEA","Failure: " + t.getMessage());
             }
         });

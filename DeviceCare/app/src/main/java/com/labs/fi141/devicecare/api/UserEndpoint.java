@@ -2,6 +2,7 @@ package com.labs.fi141.devicecare.api;
 
 import com.labs.fi141.devicecare.model.LoginUser;
 import com.labs.fi141.devicecare.model.RegisterUser;
+import com.labs.fi141.devicecare.model.SessionToken;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,9 +15,9 @@ import retrofit2.http.POST;
 public interface UserEndpoint {
 
     @POST("user/authentication")
-    Call<String> login(@Body LoginUser user);
+    Call<SessionToken> login(@Body LoginUser user);
 
     @POST("user/registration")
-    Call<String> register(@Body RegisterUser user);
+    Call<SessionToken> register(@Body RegisterUser user);
 
 }
