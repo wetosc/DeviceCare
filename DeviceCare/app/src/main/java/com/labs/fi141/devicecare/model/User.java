@@ -8,6 +8,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
+    public User(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     @SerializedName("firstName")
     String firstName;
 

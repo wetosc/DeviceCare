@@ -2,7 +2,9 @@ package com.labs.fi141.devicecare.api;
 
 import android.util.Log;
 
+import com.labs.fi141.devicecare.UserServiceDelegate;
 import com.labs.fi141.devicecare.model.LoginUser;
+import com.labs.fi141.devicecare.model.RegisterUser;
 import com.labs.fi141.devicecare.model.SessionToken;
 
 import retrofit2.Call;
@@ -15,6 +17,8 @@ import retrofit2.Retrofit;
  */
 
 public class UserService {
+
+    UserServiceDelegate delegate;
 
     UserEndpoint endpoint;
 
@@ -30,15 +34,39 @@ public class UserService {
         endpoint.login(new LoginUser(email, password)).enqueue(new Callback<SessionToken>() {
             @Override
             public void onResponse(Call<SessionToken> call, Response<SessionToken> response) {
-                Log.v("WASEA","Succes: " + response.body().getToken());
+                delegate.onLoginSuccess(response.body());
             }
 
             @Override
             public void onFailure(Call<SessionToken> call, Throwable t) {
-                Log.v("WASEA","Failure: " + t.getMessage());
+                delegate.onError(new Error(t));
             }
         });
 
     }
+
+    public void register(String firstName, String lastName, String email, String password) {
+
+        endpoint.register( new RegisterUser(firstName, lastName, email, password)).enqueue(new Callback<SessionToken>() {
+            @Override
+            public void onResponse(Call<SessionToken> call, Response<SessionToken> response) {
+                delegate.onRegisterSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<SessionToken> call, Throwable t) {
+                delegate.onError(new Error(t));
+            }
+        });
+    }
+
+    public UserServiceDelegate getDelegate() {
+        return delegate;
+    }
+
+    public void setDelegate(UserServiceDelegate delegate) {
+        this.delegate = delegate;
+    }
+
 
 }

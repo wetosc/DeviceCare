@@ -8,6 +8,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class RegisterUser extends User {
 
+    public RegisterUser(String firstName, String lastName, String email, String password) {
+        super(firstName, lastName, email);
+        this.password = password;
+    }
+
     @SerializedName("password")
     String password;
 
