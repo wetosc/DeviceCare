@@ -11,6 +11,18 @@ public class ApiError {
     @SerializedName("errorCode")
     private Integer errorCode;
 
+    @SerializedName("errorMessage")
+    private String errorMessage = "";
+
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
     public Integer getErrorCode() {
         return errorCode;
     }

@@ -34,7 +34,7 @@ public class UserService {
             @Override
             public void onResponse(Call<SessionToken> call, Response<SessionToken> response) {
                 if ( response.body().getErrorCode() != null ) {
-                    delegate.onError(new Error("User Not Found"));
+                    delegate.onError(new Error(response.body().getErrorMessage()));
                 } else {
                     delegate.onLoginSuccess(response.body());
                 }
@@ -53,7 +53,11 @@ public class UserService {
         endpoint.register( new RegisterUser(firstName, lastName, email, password)).enqueue(new Callback<SessionToken>() {
             @Override
             public void onResponse(Call<SessionToken> call, Response<SessionToken> response) {
-                delegate.onRegisterSuccess(response.body());
+                if ( response.body().getErrorCode() != null ) {
+                    delegate.onError(new Error(response.body().getErrorMessage()));
+                } else {
+                    delegate.onRegisterSuccess(response.body());
+                }
             }
 
             @Override
