@@ -1,0 +1,14 @@
+
+Colors:
+
+Primary color:
+#474a4f
+
+Secondary color:
+#7e848c
+
+Accent color:
+#ff5252
+
+Text color:
+#f9fafa 
