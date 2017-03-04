@@ -1,6 +1,7 @@
 package com.labs.fi141.devicecare.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.labs.fi141.devicecare.model.User;
 
 /**
  * Created by eugenius on 2/25/17.

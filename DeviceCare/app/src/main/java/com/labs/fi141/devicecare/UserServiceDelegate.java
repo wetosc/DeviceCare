@@ -1,6 +1,6 @@
 package com.labs.fi141.devicecare;
 
-import com.labs.fi141.devicecare.model.SessionToken;
+import com.labs.fi141.devicecare.apiModel.SessionToken;
 
 /**
  * Created by eugenius on 2/25/17.

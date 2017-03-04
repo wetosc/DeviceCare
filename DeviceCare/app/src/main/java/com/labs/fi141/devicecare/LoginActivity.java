@@ -3,11 +3,10 @@ package com.labs.fi141.devicecare;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.labs.fi141.devicecare.api.UserService;
-import com.labs.fi141.devicecare.model.SessionToken;
+import com.labs.fi141.devicecare.apiModel.SessionToken;
 
 public class LoginActivity extends AppCompatActivity implements UserServiceDelegate {
 
@@ -21,22 +20,22 @@ public class LoginActivity extends AppCompatActivity implements UserServiceDeleg
     }
 
     public void loginClick(View sender) {
-        service.login("abc", "def");
+        service.login("vadimeladii@gmail.com", "1234");
     }
 
     // API Service methods
     @Override
     public void onLoginSuccess(SessionToken token) {
-        Toast.makeText(this, token.getToken(), Toast.LENGTH_LONG);
+        Toast.makeText(this, token.getToken(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRegisterSuccess(SessionToken token) {
-        Toast.makeText(this, token.getToken(), Toast.LENGTH_SHORT);
+        Toast.makeText(this, token.getToken(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onError(Error error) {
-        Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT);
+        Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

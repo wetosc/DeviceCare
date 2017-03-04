@@ -1,11 +1,10 @@
 package com.labs.fi141.devicecare.api;
 
-import android.util.Log;
-
+import com.labs.fi141.devicecare.R;
 import com.labs.fi141.devicecare.UserServiceDelegate;
 import com.labs.fi141.devicecare.model.LoginUser;
 import com.labs.fi141.devicecare.model.RegisterUser;
-import com.labs.fi141.devicecare.model.SessionToken;
+import com.labs.fi141.devicecare.apiModel.SessionToken;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +33,11 @@ public class UserService {
         endpoint.login(new LoginUser(email, password)).enqueue(new Callback<SessionToken>() {
             @Override
             public void onResponse(Call<SessionToken> call, Response<SessionToken> response) {
-                delegate.onLoginSuccess(response.body());
+                if ( response.body().getErrorCode() != null ) {
+                    delegate.onError(new Error("User Not Found"));
+                } else {
+                    delegate.onLoginSuccess(response.body());
+                }
             }
 
             @Override
