@@ -1,6 +1,7 @@
 package com.labs.fi141.devicecare.ui;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -31,16 +32,38 @@ public class LoginActivity extends AppCompatActivity implements UserServiceDeleg
         ArrayList<CharSequence> titles = new ArrayList<>();
         titles.add("Login");
         titles.add("Register");
-        ArrayList<Fragment> fragments = new ArrayList<>();
-        Fragment f1 = new LoginFragment();
-        Fragment f2 = new RegisterFragment();
-        fragments.add(f1);
-        fragments.add(f2);
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(), titles, fragments);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText(titles.get(0)), true);
+        tabLayout.addTab(tabLayout.newTab().setText(titles.get(1)));
+
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(new LoginFragment());
+        fragments.add(new RegisterFragment());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, fragments);
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
     }
+
+
+    // Button Click
 
     public void loginClick(View sender) {
         View loginView = adapter.fragments.get(0).getView();
@@ -54,8 +77,13 @@ public class LoginActivity extends AppCompatActivity implements UserServiceDeleg
         View registerView = adapter.fragments.get(1).getView();
         TextView emailField = (TextView) registerView.findViewById(R.id.emailField);
         TextView passwordField = (TextView) registerView.findViewById(R.id.passwordField);
+        TextView firstNameField = (TextView) registerView.findViewById(R.id.firstNameField);
+        TextView lastNameField = (TextView) registerView.findViewById(R.id.lastNameField);
 
-        service.register("", "", emailField.getText().toString(), passwordField.getText().toString());
+        service.register(firstNameField.getText().toString(),
+                lastNameField.getText().toString(),
+                emailField.getText().toString(),
+                passwordField.getText().toString());
     }
 
 
