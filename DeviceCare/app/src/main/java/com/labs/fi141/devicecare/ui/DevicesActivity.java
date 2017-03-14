@@ -3,6 +3,8 @@ package com.labs.fi141.devicecare.ui;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.labs.fi141.devicecare.DeviceServiceDelegate;
@@ -19,16 +21,26 @@ import java.util.List;
 
 public class DevicesActivity extends AppCompatActivity implements DeviceServiceDelegate {
 
+    private RecyclerView recyclerView;
+    private DevicesRecyclerAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
     DeviceService service = new DeviceService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_devices_list);
         String token = this.getIntent().getExtras().getString("token");
 
         service.setDelegate(this);
         service.getAll(token);
+
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new DevicesRecyclerAdapter();
     }
 
 
@@ -41,5 +53,8 @@ public class DevicesActivity extends AppCompatActivity implements DeviceServiceD
     @Override
     public void onGetAllSuccess(List<Device> devices) {
         Toast.makeText(this, devices.size() + "", Toast.LENGTH_SHORT).show();
+        ArrayList<Device> devicesArray = new ArrayList<>(devices);
+        adapter.setDevices(devicesArray);
+        recyclerView.setAdapter(adapter);
     }
 }
