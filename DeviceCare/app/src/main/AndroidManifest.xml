@@ -15,6 +15,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.DevicesActivity"></activity>
+        <activity android:name=".ui.NewDeviceActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

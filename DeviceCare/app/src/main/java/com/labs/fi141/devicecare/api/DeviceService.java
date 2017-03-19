@@ -1,5 +1,7 @@
 package com.labs.fi141.devicecare.api;
 
+import android.content.SharedPreferences;
+
 import com.labs.fi141.devicecare.DeviceServiceDelegate;
 import com.labs.fi141.devicecare.UserServiceDelegate;
 import com.labs.fi141.devicecare.apiModel.SessionToken;
@@ -32,8 +34,8 @@ public class DeviceService {
         endpoint = retrofit.create(DeviceEndpoint.class);
     }
 
-    public void getAll(String token) {
-
+    public void getAll() {
+        String token = ""; //TODO: Implement database with token.
         endpoint.getAll(token).enqueue(new Callback<List<Device>>() {
 
             @Override
@@ -47,6 +49,22 @@ public class DeviceService {
             }
         });
 
+    }
+
+    public void createNew(Device device) {
+        String token = ""; //TODO: Implement database with token.
+        endpoint.createNew(token, device).enqueue(new Callback<Device>() {
+
+            @Override
+            public void onResponse(Call<Device> call, Response<Device> response) {
+                delegate.onInsertSucces(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Device> call, Throwable t) {
+                delegate.onError(new Error(t));
+            }
+        });
     }
 
     public DeviceServiceDelegate getDelegate() {
