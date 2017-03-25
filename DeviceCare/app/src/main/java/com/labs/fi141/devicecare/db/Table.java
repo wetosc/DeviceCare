@@ -17,10 +17,18 @@ public class Table {
         }
         str.substring(0, str.length() - 1);
         str += ");";
-        return "";
+        return str;
     }
 
     public String getDROP() {
         return String.format("drop table if exists %s;", name);
+    }
+
+    public String getSELECT() {
+        return String.format("select * from %s", name);
+    }
+
+    public String getSELECT(String paramName) {
+        return String.format("select * from %s where %s == ?", name, paramName);
     }
 }
