@@ -13,10 +13,10 @@ public class Table {
     public String getCREATE() {
         String str = String.format("create table %s (", name);
         for (String key : fields.keySet()) {
-            str += String.format("%s %s,", key, fields.get(key));
+            str += String.format(" %s %s,", key, fields.get(key));
         }
-        str.substring(0, str.length() - 1);
-        str += ");";
+        str = str.substring(0, str.length() - 1);
+        str += " );";
         return str;
     }
 
@@ -25,10 +25,10 @@ public class Table {
     }
 
     public String getSELECT() {
-        return String.format("select * from %s", name);
+        return String.format("select * from %s;", name);
     }
 
     public String getSELECT(String paramName) {
-        return String.format("select * from %s where %s == ?", name, paramName);
+        return String.format("select * from %s where %s == ?;", name, paramName);
     }
 }

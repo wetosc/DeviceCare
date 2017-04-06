@@ -14,6 +14,7 @@ import com.labs.fi141.devicecare.R;
 import com.labs.fi141.devicecare.UserServiceDelegate;
 import com.labs.fi141.devicecare.api.UserService;
 import com.labs.fi141.devicecare.apiModel.SessionToken;
+import com.labs.fi141.devicecare.model.UserStorage;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,17 @@ public class LoginActivity extends AppCompatActivity implements UserServiceDeleg
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         service.setDelegate(this);
+
+        String token = UserStorage.getToken();
+        if (token != null) {
+            loggedIn(token);
+        }
+
+        configureTabs();
+    }
+
+
+    void configureTabs() {
 
         ArrayList<CharSequence> titles = new ArrayList<>();
         titles.add("Login");
@@ -61,7 +73,6 @@ public class LoginActivity extends AppCompatActivity implements UserServiceDeleg
             }
         });
     }
-
 
     // Button Click
 

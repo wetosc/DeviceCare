@@ -33,20 +33,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createQuery = "";
         for (Table table : tables.values()) {
-            createQuery += table.getCREATE();
+            db.execSQL(table.getCREATE());
         }
-        db.execSQL(createQuery);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String dropQuery = "";
         for (Table table : tables.values()) {
-            dropQuery += table.getDROP();
+            db.execSQL(table.getDROP());
         }
-        db.execSQL(dropQuery);
         onCreate(db);
     }
 

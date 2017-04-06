@@ -3,6 +3,8 @@ package com.labs.fi141.devicecare.ui;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.stetho.Stetho;
+
 /**
  * Created by eugenius on 3/25/17.
  */
@@ -23,5 +25,12 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         sApplication = this;
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(
+                                Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(
+                                Stetho.defaultInspectorModulesProvider(this))
+                        .build());
     }
 }

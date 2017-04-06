@@ -2,6 +2,7 @@ package com.labs.fi141.devicecare.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 
 import com.labs.fi141.devicecare.db.DBHelper;
 import com.labs.fi141.devicecare.db.Table;
@@ -26,7 +27,11 @@ public class UserStorage {
                 rawQuery(table.getSELECT(), null));
     }
 
+    @Nullable
     static User userFrom(Cursor cursor) {
+        if (cursor.isAfterLast()) {
+            return null;
+        }
         int id = cursor.getInt(0);
         String firstName = cursor.getString(1);
         String lastName = cursor.getString(2);
@@ -35,7 +40,11 @@ public class UserStorage {
         return user;
     }
 
+    @Nullable
     static String tokenFrom(Cursor cursor) {
+        if (cursor.isAfterLast()) {
+            return null;
+        }
         String token = cursor.getString(4);
         return token;
     }
