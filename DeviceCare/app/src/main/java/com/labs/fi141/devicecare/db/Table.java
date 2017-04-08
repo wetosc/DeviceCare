@@ -31,4 +31,8 @@ public class Table {
     public String getSELECT(String paramName) {
         return String.format("select * from %s where %s == ?;", name, paramName);
     }
+
+    public String getName() {
+        return name;
+    }
 }

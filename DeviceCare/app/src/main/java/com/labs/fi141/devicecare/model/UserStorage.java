@@ -11,7 +11,8 @@ import com.labs.fi141.devicecare.db.Table;
  * Created by eugenius on 3/25/17.
  */
 
-public class UserStorage {
+public class UserStorage extends Storage {
+
     private static String tableName = "user";
     private static Table table = DBHelper.getInstance().getTable("user");
 
@@ -22,6 +23,11 @@ public class UserStorage {
     }
 
     public static String getToken() {
+        String cachedToken = DBHelper.getInstance().getCache().getToken();
+        if (cachedToken != null) {
+            return cachedToken;
+        }
+
         return tokenFrom(DBHelper.getInstance().
                 getReadableDatabase().
                 rawQuery(table.getSELECT(), null));
@@ -42,10 +48,11 @@ public class UserStorage {
 
     @Nullable
     static String tokenFrom(Cursor cursor) {
-        if (cursor.isAfterLast()) {
+        Cursor validatedCursor = validateCursor(cursor);
+        if (validatedCursor == null) {
             return null;
         }
-        String token = cursor.getString(4);
+        String token = validatedCursor.getString(validatedCursor.getColumnIndex("token"));
         return token;
     }
 
@@ -57,5 +64,25 @@ public class UserStorage {
         values.put("token", token);
 
         DBHelper.getInstance().getWritableDatabase().insert(tableName, null, values);
+    }
+
+    static public void writeToken(String token) {
+        deleteAll();
+
+        ContentValues values = new ContentValues();
+        values.put("token", token);
+
+        DBHelper.getInstance().getWritableDatabase().insert(tableName, null, values);
+        DBHelper.getInstance().getCache().setToken(token);
+    }
+
+    static private void deleteAll() {
+        DBHelper.getInstance().getWritableDatabase().execSQL(String.format("delete from %s", tableName));
+    }
+
+    static public void deleteToken(String token) {
+        ContentValues values = new ContentValues();
+        values.put("token", (String) null);
+        DBHelper.getInstance().getWritableDatabase().update(table.getName(), values, "token = ?", new String[]{token});
     }
 }

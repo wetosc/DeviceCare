@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.labs.fi141.devicecare.R;
 import com.labs.fi141.devicecare.UserServiceDelegate;
 import com.labs.fi141.devicecare.api.UserService;
+import com.labs.fi141.devicecare.apiModel.ApiError;
 import com.labs.fi141.devicecare.apiModel.SessionToken;
 import com.labs.fi141.devicecare.model.UserStorage;
 
@@ -30,11 +31,7 @@ public class LoginActivity extends AppCompatActivity implements UserServiceDeleg
         setContentView(R.layout.activity_login);
         service.setDelegate(this);
 
-        String token = UserStorage.getToken();
-        if (token != null) {
-            loggedIn(token);
-        }
-
+        tryToLogIn();
         configureTabs();
     }
 
@@ -99,9 +96,19 @@ public class LoginActivity extends AppCompatActivity implements UserServiceDeleg
 
 
     private void loggedIn(String token) {
-        Intent intent = new Intent(LoginActivity.this, DevicesActivity.class);
-        intent.putExtra("token", token);
-        startActivity(intent);
+        UserStorage.writeToken(token);
+        startDevicesActivity();
+    }
+
+    private void tryToLogIn() {
+        String token = UserStorage.getToken();
+        if (token != null) {
+            startDevicesActivity();
+        }
+    }
+
+    private void startDevicesActivity() {
+        startActivity(new Intent(LoginActivity.this, DevicesActivity.class));
     }
 
     // API Service methods
@@ -118,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements UserServiceDeleg
     }
 
     @Override
-    public void onError(Error error) {
-        Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
+    public void onError(ApiError error) {
+        Toast.makeText(this, error.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 }

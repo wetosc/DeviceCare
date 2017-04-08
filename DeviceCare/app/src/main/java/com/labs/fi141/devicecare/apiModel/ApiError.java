@@ -31,4 +31,13 @@ public class ApiError {
         this.errorCode = errorCode;
     }
 
+    public ApiError() {
+        this.errorMessage = null;
+        this.errorCode = null;
+    }
+
+    public ApiError(String errorMessage) {
+        this.errorMessage = errorMessage;
+        this.errorCode = -1;
+    }
 }

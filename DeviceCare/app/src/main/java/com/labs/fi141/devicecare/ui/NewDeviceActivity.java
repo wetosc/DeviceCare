@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.labs.fi141.devicecare.DeviceServiceDelegate;
 import com.labs.fi141.devicecare.R;
 import com.labs.fi141.devicecare.api.DeviceService;
+import com.labs.fi141.devicecare.apiModel.ApiError;
 import com.labs.fi141.devicecare.model.Device;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
@@ -68,8 +69,8 @@ public class NewDeviceActivity extends AppCompatActivity implements DeviceServic
     }
 
     @Override
-    public void onError(Error error) {
-        Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+    public void onError(ApiError error) {
+        Toast.makeText(this, error.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
