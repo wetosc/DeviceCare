@@ -1,15 +1,16 @@
 package com.labs.fi141.devicecare.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.labs.fi141.devicecare.apiModel.ApiError;
 
 /**
  * Created by eugenius on 3/4/17.
  */
 
-public class Device {
+public class Device extends ApiError {
 
-    @SerializedName("id")
-    private int id;
+    @SerializedName("uuid")
+    private String uuid;
 
     @SerializedName("name")
     private String name;
@@ -20,6 +21,13 @@ public class Device {
     @SerializedName("description")
     private String description;
 
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getName() {
         return name;
