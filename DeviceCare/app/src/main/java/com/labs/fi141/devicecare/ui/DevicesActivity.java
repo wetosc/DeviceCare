@@ -96,7 +96,12 @@ public class DevicesActivity extends AppCompatActivity implements DeviceServiceD
 
     @Override
     public void onInsertSucces(Device newDevice) {
-
+        loadFromDB();
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        loadFromDB();
+    }
 }

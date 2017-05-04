@@ -8,6 +8,7 @@ import com.labs.fi141.devicecare.apiModel.ApiError;
 import com.labs.fi141.devicecare.apiModel.SessionToken;
 import com.labs.fi141.devicecare.db.DBHelper;
 import com.labs.fi141.devicecare.model.Device;
+import com.labs.fi141.devicecare.model.DeviceStorage;
 import com.labs.fi141.devicecare.model.LoginUser;
 import com.labs.fi141.devicecare.model.RegisterUser;
 import com.labs.fi141.devicecare.model.UserStorage;
@@ -67,7 +68,9 @@ public class DeviceService {
 
             @Override
             public void onResponse(Call<Device> call, Response<Device> response) {
-                delegate.onInsertSucces(response.body());
+                Device newDevice = response.body();
+                DeviceStorage.writeDevice(newDevice);
+                delegate.onInsertSucces(newDevice);
             }
 
             @Override
