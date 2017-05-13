@@ -13,7 +13,6 @@ import com.labs.fi141.devicecare.db.Table;
 
 public class UserStorage extends Storage {
 
-    private static String tableName = "user";
     private static Table table = DBHelper.getInstance().getTable("user");
 
     public static User getFirst() {
@@ -63,7 +62,7 @@ public class UserStorage extends Storage {
         values.put("email", user.email);
         values.put("token", token);
 
-        DBHelper.getInstance().getWritableDatabase().insert(tableName, null, values);
+        DBHelper.getInstance().getWritableDatabase().insert(table.getName(), null, values);
     }
 
     static public void writeToken(String token) {
@@ -72,12 +71,12 @@ public class UserStorage extends Storage {
         ContentValues values = new ContentValues();
         values.put("token", token);
 
-        DBHelper.getInstance().getWritableDatabase().insert(tableName, null, values);
+        DBHelper.getInstance().getWritableDatabase().insert(table.getName(), null, values);
         DBHelper.getInstance().getCache().setToken(token);
     }
 
     static private void deleteAll() {
-        DBHelper.getInstance().getWritableDatabase().execSQL(String.format("delete from %s", tableName));
+        DBHelper.getInstance().getWritableDatabase().execSQL(String.format("delete from %s", table.getName()));
     }
 
     static public void deleteToken(String token) {

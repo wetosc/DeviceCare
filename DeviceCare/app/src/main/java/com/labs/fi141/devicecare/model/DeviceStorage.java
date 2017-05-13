@@ -24,11 +24,12 @@ public class DeviceStorage extends Storage {
         while (cursor.moveToNext()) {
             list.add(deviceFrom(cursor));
         }
+        cursor.close();
         return list;
     }
 
     public static Device getOne(String id) {
-        Cursor cursor = DBHelper.getInstance().getReadableDatabase().rawQuery(table.getSELECT(), null);
+        Cursor cursor = DBHelper.getInstance().getReadableDatabase().query(table.getName(), null, "uuid = ?", new String[]{id}, null, null, null);
         return deviceFrom(validateCursor(cursor));
     }
 
@@ -58,8 +59,7 @@ public class DeviceStorage extends Storage {
 
         Device dbDevice = getOne(device.getUuid());
         if (dbDevice != null) {
-            DBHelper.getInstance().getWritableDatabase().update(table.getName(), values,
-                    "uuid = ?", new String[]{device.getUuid()});
+            DBHelper.getInstance().getWritableDatabase().update(table.getName(), values, "uuid = ?", new String[]{device.getUuid()});
         } else {
             DBHelper.getInstance().getWritableDatabase().insert(table.getName(), null, values);
         }
