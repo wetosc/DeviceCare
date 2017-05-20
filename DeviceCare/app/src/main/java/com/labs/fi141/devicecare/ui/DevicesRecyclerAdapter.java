@@ -18,7 +18,6 @@ import java.util.ArrayList;
  */
 
 
-
 public class DevicesRecyclerAdapter extends RecyclerView.Adapter<DevicesRecyclerAdapter.ViewHolder> {
 
     private ArrayList<Device> devices = new ArrayList<Device>();
@@ -31,19 +30,21 @@ public class DevicesRecyclerAdapter extends RecyclerView.Adapter<DevicesRecycler
         public TextView title;
         public TextView type;
         public TextView description;
+        public ImageView icon;
 
         public ViewHolder(View v) {
             super(v);
             title = (TextView) v.findViewById(R.id.title);
             type = (TextView) v.findViewById(R.id.type);
             description = (TextView) v.findViewById(R.id.description);
+            icon = (ImageView) v.findViewById(R.id.imageView);
         }
     }
 
     // Create new views (invoked by the layout manager)
     @Override
     public DevicesRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+                                                                int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.device_card, parent, false);
@@ -62,6 +63,20 @@ public class DevicesRecyclerAdapter extends RecyclerView.Adapter<DevicesRecycler
         holder.title.setText(device.getName());
         holder.type.setText(device.getType());
         holder.description.setText(device.getDescription());
+        int imageID = 0;
+        switch (device.getType()) {
+            case "mobile":
+            case "phone":
+                imageID = R.drawable.ic_phone;
+                break;
+            case "laptop":
+            case "notebook":
+                imageID = R.drawable.ic_laptop;
+                break;
+        }
+        if (imageID != 0) {
+            holder.icon.setImageResource(imageID);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

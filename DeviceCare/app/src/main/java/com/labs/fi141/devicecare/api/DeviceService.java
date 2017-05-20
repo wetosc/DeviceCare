@@ -80,6 +80,26 @@ public class DeviceService {
         });
     }
 
+    public void update(Device device) {
+        String token = UserStorage.getToken();
+        endpoint.update(token, device).enqueue(new Callback<Device>() {
+
+            @Override
+            public void onResponse(Call<Device> call, Response<Device> response) {
+                Device newDevice = response.body();
+                DeviceStorage.writeDevice(newDevice);
+                delegate.onInsertSucces(newDevice);
+            }
+
+            @Override
+            public void onFailure(Call<Device> call, Throwable t) {
+                delegate.onError(new ApiError(t.getMessage()));
+            }
+        });
+    }
+
+
+
     public DeviceServiceDelegate getDelegate() {
         return delegate;
     }

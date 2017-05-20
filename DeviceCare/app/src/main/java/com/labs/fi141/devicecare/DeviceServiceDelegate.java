@@ -14,5 +14,4 @@ public interface DeviceServiceDelegate extends ServiceDelegate {
     void onGetAllSuccess(List<Device> devices);
 
     void onInsertSucces(Device newDevice);
-
 }

@@ -15,41 +15,52 @@ import com.labs.fi141.devicecare.R;
 import com.labs.fi141.devicecare.api.DeviceService;
 import com.labs.fi141.devicecare.apiModel.ApiError;
 import com.labs.fi141.devicecare.model.Device;
+import com.labs.fi141.devicecare.model.DeviceStorage;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by eugenius on 3/18/17.
+ * Created by eugenius on 5/20/17.
  */
 
-public class NewDeviceActivity extends AppCompatActivity implements DeviceServiceDelegate {
+public class UpdateDeviceActivity extends AppCompatActivity implements DeviceServiceDelegate {
 
     DeviceService service = new DeviceService();
     String deviceType = "";
+    Device device;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_device);
-
-        service.setDelegate(this);
         setupActivity();
+        service.setDelegate(this);
+
+        String deviceUUID = getIntent().getStringExtra("device");
+        configure(DeviceStorage.getOne(deviceUUID));
     }
 
     void setupActivity() {
-        Button deleteButton = (Button) findViewById(R.id.delete);
-        deleteButton.setVisibility(View.GONE);
-
         TextView activityTitle = (TextView) findViewById(R.id.activityTitle);
-        activityTitle.setText("New Device");
+        activityTitle.setText("Update Device");
     }
 
+    public void configure(Device device) {
+        this.device = device;
+
+        TextView nameTextView = (TextView) findViewById(R.id.name);
+        nameTextView.setText(device.getName());
+
+        TextView descriptionTextView = (TextView) findViewById(R.id.description);
+        descriptionTextView.setText(device.getDescription());
+
+        deviceType = device.getType();
+        Button button = (Button) findViewById(R.id.type);
+        button.setText(deviceType.toUpperCase());
+    }
 
     public void selectType(View v) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_text_item, R.id.textView, Arrays.asList("mobile", "laptop"));
@@ -70,7 +81,6 @@ public class NewDeviceActivity extends AppCompatActivity implements DeviceServic
     }
 
     public void submit(View v) {
-        Device device = new Device();
         device.setType(deviceType);
 
         TextView nameTextView = (TextView) findViewById(R.id.name);
@@ -79,13 +89,16 @@ public class NewDeviceActivity extends AppCompatActivity implements DeviceServic
         TextView descriptionTextView = (TextView) findViewById(R.id.description);
         device.setDescription(descriptionTextView.getText().toString());
 
-        service.createNew(device);
+        service.update(device);
     }
 
     public void cancel(View v) {
         finish();
     }
 
+    public void delete(View v) {
+
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -115,4 +128,5 @@ public class NewDeviceActivity extends AppCompatActivity implements DeviceServic
     public void onInsertSucces(Device newDevice) {
         finish();
     }
+
 }

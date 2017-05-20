@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,7 +32,7 @@ public class DevicesActivity extends AppCompatActivity implements DeviceServiceD
 
     private RecyclerView recyclerView;
     private DevicesRecyclerAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private List<Device> devices;
 
     DeviceService service = new DeviceService();
 
@@ -51,11 +52,26 @@ public class DevicesActivity extends AppCompatActivity implements DeviceServiceD
     }
 
     void configureRecycleView() {
+        adapter = new DevicesRecyclerAdapter();
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new DevicesRecyclerAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerViewClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Device device = devices.get(position);
+                Intent intent = new Intent(DevicesActivity.this, UpdateDeviceActivity.class);
+                intent.putExtra("device", device.getUuid());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     void configureFAB() {
@@ -74,8 +90,9 @@ public class DevicesActivity extends AppCompatActivity implements DeviceServiceD
     }
 
     void updateTable(List<Device> devices) {
+        this.devices = devices;
         adapter.setDevices(new ArrayList<>(devices));
-        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
 
