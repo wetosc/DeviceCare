@@ -19,6 +19,7 @@
         <activity android:name=".ui.DevicesActivity"></activity>
         <activity android:name=".ui.NewDeviceActivity"></activity>
         <activity android:name=".ui.UpdateDeviceActivity"></activity>
+        <activity android:name=".ui.DetailDeviceActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 

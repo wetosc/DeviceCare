@@ -49,6 +49,9 @@ public class UpdateDeviceActivity extends AppCompatActivity implements DeviceSer
     }
 
     public void configure(Device device) {
+        if (device == null) {
+            return;
+        }
         this.device = device;
 
         TextView nameTextView = (TextView) findViewById(R.id.name);

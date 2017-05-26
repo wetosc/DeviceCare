@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:padding="8dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:expanded="false">
+
+        <TextView
+            android:id="@+id/activityTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Device"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="20sp" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="15dp"
+        app:elevation="5dp"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_edit_white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/appBar"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorMilk">
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/frameLayout"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/frameLayout"
+            android:layout_toLeftOf="@+id/frameLayout"
+            android:lineSpacingExtra="8sp"
+            android:padding="10dp"
+            android:text="TextView" />
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                app:srcCompat="@drawable/ic_phone" />
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

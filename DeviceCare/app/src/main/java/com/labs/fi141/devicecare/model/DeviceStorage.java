@@ -29,6 +29,9 @@ public class DeviceStorage extends Storage {
     }
 
     public static Device getOne(String id) {
+        if (id == null) {
+            return null;
+        }
         Cursor cursor = DBHelper.getInstance().getReadableDatabase().query(table.getName(), null, "uuid = ?", new String[]{id}, null, null, null);
         return deviceFrom(validateCursor(cursor));
     }

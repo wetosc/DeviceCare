@@ -62,7 +62,7 @@ public class DevicesActivity extends AppCompatActivity implements DeviceServiceD
             @Override
             public void onClick(View view, int position) {
                 Device device = devices.get(position);
-                Intent intent = new Intent(DevicesActivity.this, UpdateDeviceActivity.class);
+                Intent intent = new Intent(DevicesActivity.this, DetailDeviceActivity.class);
                 intent.putExtra("device", device.getUuid());
                 startActivity(intent);
             }
