@@ -2,6 +2,7 @@ package com.labs.fi141.devicecare.api;
 
 import com.labs.fi141.devicecare.R;
 import com.labs.fi141.devicecare.UserServiceDelegate;
+import com.labs.fi141.devicecare.apiModel.ApiError;
 import com.labs.fi141.devicecare.model.LoginUser;
 import com.labs.fi141.devicecare.model.RegisterUser;
 import com.labs.fi141.devicecare.apiModel.SessionToken;
@@ -34,7 +35,7 @@ public class UserService {
             @Override
             public void onResponse(Call<SessionToken> call, Response<SessionToken> response) {
                 if ( response.body().getErrorCode() != null ) {
-                    delegate.onError(new Error(response.body().getErrorMessage()));
+                    delegate.onError(response.body());
                 } else {
                     delegate.onLoginSuccess(response.body());
                 }
@@ -42,7 +43,7 @@ public class UserService {
 
             @Override
             public void onFailure(Call<SessionToken> call, Throwable t) {
-                delegate.onError(new Error(t));
+                delegate.onError(new ApiError(t.getMessage()));
             }
         });
 
@@ -54,7 +55,7 @@ public class UserService {
             @Override
             public void onResponse(Call<SessionToken> call, Response<SessionToken> response) {
                 if ( response.body().getErrorCode() != null ) {
-                    delegate.onError(new Error(response.body().getErrorMessage()));
+                    delegate.onError(response.body());
                 } else {
                     delegate.onRegisterSuccess(response.body());
                 }
@@ -62,7 +63,7 @@ public class UserService {
 
             @Override
             public void onFailure(Call<SessionToken> call, Throwable t) {
-                delegate.onError(new Error(t));
+                delegate.onError(new ApiError(t.getMessage()));
             }
         });
     }

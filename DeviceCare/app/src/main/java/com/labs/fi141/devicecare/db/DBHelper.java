@@ -20,6 +20,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Main.db";
     private static final int DATABASE_VERSION = 1;
 
+    private final DBCache cache = new DBCache();
+
     public static synchronized DBHelper getInstance() {
         if (sInstance == null) {
             sInstance = new DBHelper();
@@ -33,20 +35,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createQuery = "";
         for (Table table : tables.values()) {
-            createQuery += table.getCREATE();
+            db.execSQL(table.getCREATE());
         }
-        db.execSQL(createQuery);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String dropQuery = "";
         for (Table table : tables.values()) {
-            dropQuery += table.getDROP();
+            db.execSQL(table.getDROP());
         }
-        db.execSQL(dropQuery);
         onCreate(db);
     }
 
@@ -59,6 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
         devices.setName("device");
         HashMap<String, String> devicesFields = new HashMap<>();
         devicesFields.put("id", "integer primary key");
+        devicesFields.put("uuid", "text");
         devicesFields.put("name", "text");
         devicesFields.put("type", "text");
         devicesFields.put("description", "text");
@@ -81,5 +80,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Table getTable(String tableName) {
         return tables.get(tableName);
+    }
+
+    public DBCache getCache() {
+        return cache;
     }
 }

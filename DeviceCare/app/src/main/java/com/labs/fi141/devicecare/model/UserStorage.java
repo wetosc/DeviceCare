@@ -2,6 +2,7 @@ package com.labs.fi141.devicecare.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 
 import com.labs.fi141.devicecare.db.DBHelper;
 import com.labs.fi141.devicecare.db.Table;
@@ -10,8 +11,8 @@ import com.labs.fi141.devicecare.db.Table;
  * Created by eugenius on 3/25/17.
  */
 
-public class UserStorage {
-    private static String tableName = "user";
+public class UserStorage extends Storage {
+
     private static Table table = DBHelper.getInstance().getTable("user");
 
     public static User getFirst() {
@@ -21,12 +22,21 @@ public class UserStorage {
     }
 
     public static String getToken() {
+        String cachedToken = DBHelper.getInstance().getCache().getToken();
+        if (cachedToken != null) {
+            return cachedToken;
+        }
+
         return tokenFrom(DBHelper.getInstance().
                 getReadableDatabase().
                 rawQuery(table.getSELECT(), null));
     }
 
+    @Nullable
     static User userFrom(Cursor cursor) {
+        if (cursor.isAfterLast()) {
+            return null;
+        }
         int id = cursor.getInt(0);
         String firstName = cursor.getString(1);
         String lastName = cursor.getString(2);
@@ -35,8 +45,13 @@ public class UserStorage {
         return user;
     }
 
+    @Nullable
     static String tokenFrom(Cursor cursor) {
-        String token = cursor.getString(4);
+        Cursor validatedCursor = validateCursor(cursor);
+        if (validatedCursor == null) {
+            return null;
+        }
+        String token = validatedCursor.getString(validatedCursor.getColumnIndex("token"));
         return token;
     }
 
@@ -47,6 +62,26 @@ public class UserStorage {
         values.put("email", user.email);
         values.put("token", token);
 
-        DBHelper.getInstance().getWritableDatabase().insert(tableName, null, values);
+        DBHelper.getInstance().getWritableDatabase().insert(table.getName(), null, values);
+    }
+
+    static public void writeToken(String token) {
+        deleteAll();
+
+        ContentValues values = new ContentValues();
+        values.put("token", token);
+
+        DBHelper.getInstance().getWritableDatabase().insert(table.getName(), null, values);
+        DBHelper.getInstance().getCache().setToken(token);
+    }
+
+    static private void deleteAll() {
+        DBHelper.getInstance().getWritableDatabase().execSQL(String.format("delete from %s", table.getName()));
+    }
+
+    static public void deleteToken(String token) {
+        ContentValues values = new ContentValues();
+        values.put("token", (String) null);
+        DBHelper.getInstance().getWritableDatabase().update(table.getName(), values, "token = ?", new String[]{token});
     }
 }

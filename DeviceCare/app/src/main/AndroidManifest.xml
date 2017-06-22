@@ -18,6 +18,13 @@
         </activity>
         <activity android:name=".ui.DevicesActivity"></activity>
         <activity android:name=".ui.NewDeviceActivity"></activity>
+        <activity android:name=".ui.UpdateDeviceActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <dependency>
+        <groupid>com.facebook.stetho</groupid>
+        <artifactid>stetho</artifactid>
+        <version>1.4.2</version>
+    </dependency>
 </manifest>

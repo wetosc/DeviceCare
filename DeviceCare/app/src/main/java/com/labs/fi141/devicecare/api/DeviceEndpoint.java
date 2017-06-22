@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 /**
@@ -21,4 +22,7 @@ public interface DeviceEndpoint {
 
     @POST("device")
     Call<Device> createNew(@Query("token") String token, @Body Device device);
+
+    @PUT("device")
+    Call<Device> update(@Query("token") String token, @Body Device device);
 }
