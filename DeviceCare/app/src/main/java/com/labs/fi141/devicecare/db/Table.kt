@@ -16,7 +16,7 @@ class Table {
             for (key in fields!!.keys) {
                 str += "${key} ${fields!![key]},"
             }
-            str.subSequence(0, str.length - 1)
+            str = str.subSequence(0, str.length - 1).toString()
             str += ");"
             return str
         }
