@@ -22,10 +22,4 @@
         <activity android:name=".ui.DetailDeviceActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <dependency>
-        <groupid>com.facebook.stetho</groupid>
-        <artifactid>stetho</artifactid>
-        <version>1.4.2</version>
-    </dependency>
 </manifest>

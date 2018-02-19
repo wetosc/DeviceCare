@@ -54,26 +54,26 @@ public class DBHelper extends SQLiteOpenHelper {
         HashMap<String, Table> result = new HashMap<String, Table>();
 
         Table devices = new Table();
-        devices.name = "device";
+        devices.setName("device");
         HashMap<String, String> devicesFields = new HashMap<>();
         devicesFields.put("id", "integer primary key");
         devicesFields.put("uuid", "text");
         devicesFields.put("name", "text");
         devicesFields.put("type", "text");
         devicesFields.put("description", "text");
-        devices.fields = devicesFields;
-        result.put(devices.name, devices);
+        devices.setFields(devicesFields);
+        result.put(devices.getName(), devices);
 
         Table users = new Table();
-        users.name = "user";
+        users.setName("user");
         HashMap<String, String> usersFields = new HashMap<>();
         usersFields.put("id", "integer primary key");
         usersFields.put("firstName", "text");
         usersFields.put("lastName", "text");
         usersFields.put("email", "text");
         usersFields.put("token", "text");
-        users.fields = usersFields;
-        result.put(users.name, users);
+        users.setFields(usersFields);
+        result.put(users.getName(), users);
 
         return result;
     }
