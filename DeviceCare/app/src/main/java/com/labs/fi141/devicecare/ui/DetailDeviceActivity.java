@@ -35,6 +35,8 @@ public class DetailDeviceActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(DetailDeviceActivity.this, UpdateDeviceActivity.class);
+                intent.putExtra("device", device.getUuid());
                 startActivity(new Intent(DetailDeviceActivity.this, UpdateDeviceActivity.class));
             }
         });
